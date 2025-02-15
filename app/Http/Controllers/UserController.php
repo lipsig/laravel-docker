@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use App\Http\Resources\TokenResource;
 
 class UserController extends Controller
 {
-   
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
