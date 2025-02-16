@@ -20,43 +20,15 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
     git clone https://github.com/seu-usuario/laravel-docker.git
     cd laravel-docker
     ```
-
-2. Copie o arquivo [.env.example](http://_vscodecontentref_/0) para [.env](http://_vscodecontentref_/1) e configure suas variáveis de ambiente:
-    ```sh
-    cp .env.example .env
     ```
 
-3. Instale as dependências do Composer:
-    ```sh
-    composer install
-    ```
-
-4. Gere a chave da aplicação:
-    ```sh
-    php artisan key:generate
-    ```
-
-## Passos para Rodar o Docker
+## Passos para Rodar o Docker e inicializar o Projeto
 
 1. Construa e inicie os contêineres Docker:
     ```sh
     docker-compose up --build
     ```
 
-2. Acesse o contêiner da aplicação:
-    ```sh
-    docker exec -it laravel_app bash
-    ```
-
-3. Execute as migrações do banco de dados:
-    ```sh
-    php artisan migrate
-    ```
-
-4. (Opcional) Popule o banco de dados com dados fictícios:
-    ```sh
-    php artisan db:seed
-    ```
 
 ## Mini Documentação das Rotas
 
