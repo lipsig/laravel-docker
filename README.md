@@ -50,7 +50,7 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
 
 ## Importar a Collection no Postman
 
-    - Importe o arquivo chamado collection.json disponivel no repositório no postman ou insomnia.
+    Importe o arquivo chamado collection.json disponivel no repositório no postman ou insomnia.
 
 
 ## Mini Documentação das Rotas
@@ -79,31 +79,6 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
             "password": "senha123"
         }
         ```
-
-### Usuários
-
-- **Mostrar Usuário**
-    - **URL:** `/api/user`
-    - **Método:** `GET`
-    - **Headers:** `Authorization: Bearer {token}`
-
-- **Atualizar Usuário**
-    - **URL:** `/api/user`
-    - **Método:** `PUT`
-    - **Headers:** `Authorization: Bearer {token}`
-    - **Body:**
-        ```json
-        {
-            "name": "João Silva Atualizado",
-            "email": "joao.atualizado@exemplo.com",
-            "password": "novaSenha123"
-        }
-        ```
-
-- **Deletar Usuário**
-    - **URL:** `/api/user`
-    - **Método:** `DELETE`
-    - **Headers:** `Authorization: Bearer {token}`
 
 ### Influenciadores
 
