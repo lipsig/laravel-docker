@@ -72,7 +72,7 @@ class InfluencerController extends Controller
         try {
             $influencer = Influencer::findOrFail($id);
             $influencer->delete();
-            return response()->json(['message' => 'Influencer deleted successfully']);
+            return response()->json(['message' => 'Influencer deleted successfully'], 204);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Influencer not found'], 404);
         } catch (\Exception $e) {
