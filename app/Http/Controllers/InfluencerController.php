@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Influencer;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
+
 
 class InfluencerController extends Controller
 {
@@ -17,7 +21,7 @@ class InfluencerController extends Controller
             return response()->json(['error' => 'Failed to retrieve influencers'], 500);
         }
     }
-
+   
     public function store(Request $request)
     {
         try {
@@ -27,13 +31,43 @@ class InfluencerController extends Controller
                 'followers_count' => 'required|integer|min:1',
                 'category' => 'required|string|max:255',
             ]);
-
+    
             $influencer = Influencer::create($request->all());
+    
             return response()->json($influencer, 201);
+    
+        } catch (ValidationException $e) {
+            Log::error('Validation error:', $e->errors());
+            return response()->json([
+                'error' => 'Validation failed',
+                'messages' => $e->errors(),
+            ], 422);
+    
+        } catch (QueryException $e) {
+            Log::error('QueryException error:', [
+                'error' => $e->getMessage(),
+                'code' => $e->errorInfo[1]
+            ]);
+    
+            if ($e->errorInfo[1] == 1062) {
+                if (str_contains($e->getMessage(), 'instagram_user')) {
+                    return response()->json([
+                        'error' => 'The Instagram username is already in use.'
+                    ], 400);
+                }
+            }
+    
+            return response()->json([
+                'error' => 'Database error',
+                'message' => $e->getMessage(),
+            ], 500);
+    
         } catch (\Exception $e) {
+            Log::error('General exception error:', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Failed to create influencer'], 500);
         }
     }
+    
 
     public function show($id)
     {

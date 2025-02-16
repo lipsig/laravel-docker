@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Influencer;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -11,6 +12,7 @@ class CampaignController extends Controller
 {
     public function store(Request $request)
     {
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'budget' => 'required|numeric|min:0.01',
@@ -20,16 +22,26 @@ class CampaignController extends Controller
             'influencer_ids' => 'required|array',
             'influencer_ids.*' => 'exists:influencers,id',
         ]);
-
+    
         try {
+        
+            $influencerIds = $request->input('influencer_ids');
+            $existingInfluencers = Influencer::whereIn('id', $influencerIds)->pluck('id')->toArray();
+    
+          
+            if (count($existingInfluencers) !== count($influencerIds)) {
+                return response()->json(['error' => 'One or more influencer IDs are invalid'], 400);
+            }
+    
             $campaign = Campaign::create($request->only(['name', 'budget', 'description', 'start_date', 'end_date']));
-            $campaign->influencers()->attach($request->influencer_ids);
-
+            $campaign->influencers()->attach($influencerIds);
+    
             return response()->json($campaign->load('influencers'), 201);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to create campaign'], 500);
         }
     }
+    
 
     public function index()
     {
@@ -89,15 +101,24 @@ class CampaignController extends Controller
 
     public function attachInfluencer(Request $request, Campaign $campaign)
     {
+      
         $request->validate([
-            'influencer_id' => 'required|exists:influencers,id',
+            'influencer_ids' => 'required|array',
+            'influencer_ids.*' => 'exists:influencers,id',
         ]);
-
+    
         try {
-            $campaign->influencers()->attach($request->influencer_id);
+            $influencerIds = $request->input('influencer_ids');
+            $existingInfluencers = Influencer::whereIn('id', $influencerIds)->pluck('id')->toArray();
+
+            if (count($existingInfluencers) !== count($influencerIds)) {
+                return response()->json(['error' => 'One or more influencer IDs are invalid'], 400);
+            }
+    
+            $campaign->influencers()->attach($influencerIds);
             return response()->json($campaign->load('influencers'));
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to attach influencer'], 500);
+            return response()->json(['error' => 'Failed to attach influencers'], 500);
         }
     }
 }
