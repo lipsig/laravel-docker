@@ -15,6 +15,11 @@ WORKDIR /var/www
 # Copiar os arquivos do projeto para dentro do contêiner
 COPY . .
 
+# Copy the start script
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+
 # Fazer run para chmod -R 775 storage
 RUN chmod -R 775 /var/www/storage
 RUN chmod -R 775 /var/www/bootstrap/cache

@@ -9,10 +9,10 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
-    entrypoint: ["sh", "-c", "composer install --no-interaction --prefer-dist --optimize-autoloader && php artisan migrate && php artisan test && php-fpm"]
+    entrypoint: ["sh", "/usr/local/bin/start.sh"]
     environment:
       APP_NAME: Laravel
-      APP_ENV: local
+      APP_ENV: local  
       APP_KEY: base64:HZyGIBo0v2xTN9Npyt6wXCfW1EQTzVEDjXBMvzyarv8=
       APP_DEBUG: 'true'
       APP_URL: http://localhost
