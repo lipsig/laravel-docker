@@ -22,3 +22,13 @@ Route::middleware('auth:api')->group(function () {
     Route::put('user', [UserController::class, 'update']);
     Route::delete('user', [UserController::class, 'destroy']);
 });
+
+
+//influencer routes
+Route::middleware('auth:api')->group(function () {
+    Route::post('influencers', [InfluencerController::class, 'store']);
+    Route::get('influencers', [InfluencerController::class, 'index']);
+    Route::get('influencers/{id}', [InfluencerController::class, 'show']);
+    Route::put('influencers/{id}', [InfluencerController::class, 'update']);
+    Route::delete('influencers/{id}', [InfluencerController::class, 'destroy']);
+});
