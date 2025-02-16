@@ -50,7 +50,7 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
 
 ## Importar a Collection no Postman
 
-
+    - Importe o arquivo chamado collection.json disponivel no repositório no postman ou insomnia.
 
 
 ## Mini Documentação das Rotas
