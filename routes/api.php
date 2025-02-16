@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InfluencerController;
+use App\Http\Controllers\CampaignController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,4 +33,14 @@ Route::middleware('auth:api')->group(function () {
     Route::get('influencers/{id}', [InfluencerController::class, 'show']);
     Route::put('influencers/{id}', [InfluencerController::class, 'update']);
     Route::delete('influencers/{id}', [InfluencerController::class, 'destroy']);
+});
+
+
+//campaign routes
+Route::middleware('auth:api')->group(function () {
+    Route::post('campaigns', [CampaignController::class, 'store']);
+    Route::get('campaigns', [CampaignController::class, 'index']);
+    Route::get('campaigns/{id}', [CampaignController::class, 'show']);
+    Route::put('campaigns/{id}', [CampaignController::class, 'update']);
+    Route::delete('campaigns/{id}', [CampaignController::class, 'destroy']);
 });
