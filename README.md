@@ -30,6 +30,12 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
     ```
 
 
+
+## Importar a Collection no Postman
+
+
+
+
 ## Mini Documentação das Rotas
 
 ### Autenticação
@@ -174,100 +180,3 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
     - **URL:** `/api/campaigns/{id}`
     - **Método:** `DELETE`
     - **Headers:** `Authorization: Bearer {token}`
-
-## Importar a Collection no Insomnia
-
-Para importar a collection no Insomnia, siga os passos abaixo:
-
-1. Abra o Insomnia.
-2. Clique em `Import/Export` no canto superior direito.
-3. Selecione `Import Data` e depois `From Clipboard`.
-4. Cole o JSON abaixo e clique em `Import`.
-
-```json
-{
-  "workspace": {
-    "name": "Campaign API",
-    "description": "",
-    "scope": "collection"
-  },
-  "requests": [
-    {
-      "_id": "req_1",
-      "name": "Create Campaign",
-      "url": "http://localhost:8000/api/campaigns",
-      "method": "POST",
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer {{token}}"
-        },
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"name\": \"New Campaign\",\n  \"budget\": 5000,\n  \"description\": \"This is a test campaign\",\n  \"start_date\": \"2025-02-15\",\n  \"end_date\": \"2025-03-15\",\n  \"influencer_ids\": [1, 2, 3]\n}"
-      }
-    },
-    {
-      "_id": "req_2",
-      "name": "List Campaigns",
-      "url": "http://localhost:8000/api/campaigns",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer {{token}}"
-        }
-      ]
-    },
-    {
-      "_id": "req_3",
-      "name": "Show Campaign",
-      "url": "http://localhost:8000/api/campaigns/{{campaign_id}}",
-      "method": "GET",
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer {{token}}"
-        }
-      ]
-    },
-    {
-      "_id": "req_4",
-      "name": "Update Campaign",
-      "url": "http://localhost:8000/api/campaigns/{{campaign_id}}",
-      "method": "PUT",
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer {{token}}"
-        },
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"name\": \"Updated Campaign\",\n  \"budget\": 10000,\n  \"description\": \"This is an updated test campaign\",\n  \"start_date\": \"2025-02-15\",\n  \"end_date\": \"2025-03-15\"\n}"
-      }
-    },
-    {
-      "_id": "req_5",
-      "name": "Delete Campaign",
-      "url": "http://localhost:8000/api/campaigns/{{campaign_id}}",
-      "method": "DELETE",
-      "headers": [
-        {
-          "name": "Authorization",
-          "value": "Bearer {{token}}"
-        }
-      ]
-    }
-  ],
-  "_type": "export"
-}
