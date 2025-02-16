@@ -1,66 +1,301 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Docker Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Resumo do Projeto
 
-## About Laravel
+Este projeto é uma aplicação Laravel configurada para rodar em contêineres Docker. Ele inclui funcionalidades para gerenciar usuários, influenciadores e campanhas, com autenticação JWT.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologias Utilizadas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.1
+- Laravel 10
+- MySQL 5.7
+- Nginx
+- Docker
+- JWT Auth
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Passos para Clonar o Repositório
 
-## Learning Laravel
+1. Clone o repositório:
+    ```sh
+    git clone https://github.com/seu-usuario/laravel-docker.git
+    cd laravel-docker
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Copie o arquivo [.env.example](http://_vscodecontentref_/0) para [.env](http://_vscodecontentref_/1) e configure suas variáveis de ambiente:
+    ```sh
+    cp .env.example .env
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Instale as dependências do Composer:
+    ```sh
+    composer install
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. Gere a chave da aplicação:
+    ```sh
+    php artisan key:generate
+    ```
 
-## Laravel Sponsors
+## Passos para Rodar o Docker
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Construa e inicie os contêineres Docker:
+    ```sh
+    docker-compose up --build
+    ```
 
-### Premium Partners
+2. Acesse o contêiner da aplicação:
+    ```sh
+    docker exec -it laravel_app bash
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. Execute as migrações do banco de dados:
+    ```sh
+    php artisan migrate
+    ```
 
-## Contributing
+4. (Opcional) Popule o banco de dados com dados fictícios:
+    ```sh
+    php artisan db:seed
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Mini Documentação das Rotas
 
-## Code of Conduct
+### Autenticação
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **Registrar Usuário**
+    - **URL:** `/api/register`
+    - **Método:** `POST`
+    - **Body:**
+        ```json
+        {
+            "name": "João Silva",
+            "email": "joao@exemplo.com",
+            "password": "senha123"
+        }
+        ```
 
-## Security Vulnerabilities
+- **Login**
+     **-URL:** `/api/login`
+    - **Método:** `POST`
+    - **Body:**
+        ```json
+        {
+            "email": "joao@exemplo.com",
+            "password": "senha123"
+        }
+        ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Usuários
 
-## License
+- **Mostrar Usuário**
+    - **URL:** `/api/user`
+    - **Método:** `GET`
+    - **Headers:** `Authorization: Bearer {token}`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Atualizar Usuário**
+    - **URL:** `/api/user`
+    - **Método:** `PUT`
+    - **Headers:** `Authorization: Bearer {token}`
+    - **Body:**
+        ```json
+        {
+            "name": "João Silva Atualizado",
+            "email": "joao.atualizado@exemplo.com",
+            "password": "novaSenha123"
+        }
+        ```
+
+- **Deletar Usuário**
+    - **URL:** `/api/user`
+    - **Método:** `DELETE`
+    - **Headers:** `Authorization: Bearer {token}`
+
+### Influenciadores
+
+- **Criar Influenciador**
+    - **URL:** `/api/influencers`
+    - **Método:** `POST`
+    - **Headers:** `Authorization: Bearer {token}`
+    - **Body:**
+        ```json
+        {
+            "name": "John Doe",
+            "instagram_user": "johndoe",
+            "followers_count": 1000,
+            "category": "Technology"
+        }
+        ```
+
+- **Listar Influenciadores**
+    - **URL:** `/api/influencers`
+    - **Método:** `GET`
+    - **Headers:** `Authorization: Bearer {token}`
+
+- **Mostrar Influenciador**
+    - **URL:** `/api/influencers/{id}`
+    - **Método:** `GET`
+    - **Headers:** `Authorization: Bearer {token}`
+
+- **Atualizar Influenciador**
+    - **URL:** `/api/influencers/{id}`
+    - **Método:** `PUT`
+    - **Headers:** `Authorization: Bearer {token}`
+    - **Body:**
+        ```json
+        {
+            "name": "Jane Doe",
+            "instagram_user": "janedoe",
+            "followers_count": 2000,
+            "category": "Lifestyle"
+        }
+        ```
+
+- **Deletar Influenciador**
+    - **URL:** `/api/influencers/{id}`
+    - **Método:** `DELETE`
+    - **Headers:** `Authorization: Bearer {token}`
+
+### Campanhas
+
+- **Criar Campanha**
+    - **URL:** `/api/campaigns`
+    - **Método:** `POST`
+    - **Headers:** `Authorization: Bearer {token}`
+    - **Body:**
+        ```json
+        {
+            "name": "New Campaign",
+            "budget": 5000,
+            "description": "This is a test campaign",
+            "start_date": "2025-02-15",
+            "end_date": "2025-03-15",
+            "influencer_ids": [1, 2, 3]
+        }
+        ```
+
+- **Listar Campanhas**
+    - **URL:** `/api/campaigns`
+    - **Método:** `GET`
+    - **Headers:** `Authorization: Bearer {token}`
+
+- **Mostrar Campanha**
+    - **URL:** `/api/campaigns/{id}`
+    - **Método:** `GET`
+    - **Headers:** `Authorization: Bearer {token}`
+
+- **Atualizar Campanha**
+    - **URL:** `/api/campaigns/{id}`
+    - **Método:** `PUT`
+    - **Headers:** `Authorization: Bearer {token}`
+    - **Body:**
+        ```json
+        {
+            "name": "Updated Campaign",
+            "budget": 10000,
+            "description": "This is an updated test campaign",
+            "start_date": "2025-02-15",
+            "end_date": "2025-03-15"
+        }
+        ```
+
+- **Deletar Campanha**
+    - **URL:** `/api/campaigns/{id}`
+    - **Método:** `DELETE`
+    - **Headers:** `Authorization: Bearer {token}`
+
+## Importar a Collection no Insomnia
+
+Para importar a collection no Insomnia, siga os passos abaixo:
+
+1. Abra o Insomnia.
+2. Clique em `Import/Export` no canto superior direito.
+3. Selecione `Import Data` e depois `From Clipboard`.
+4. Cole o JSON abaixo e clique em `Import`.
+
+```json
+{
+  "workspace": {
+    "name": "Campaign API",
+    "description": "",
+    "scope": "collection"
+  },
+  "requests": [
+    {
+      "_id": "req_1",
+      "name": "Create Campaign",
+      "url": "http://localhost:8000/api/campaigns",
+      "method": "POST",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"New Campaign\",\n  \"budget\": 5000,\n  \"description\": \"This is a test campaign\",\n  \"start_date\": \"2025-02-15\",\n  \"end_date\": \"2025-03-15\",\n  \"influencer_ids\": [1, 2, 3]\n}"
+      }
+    },
+    {
+      "_id": "req_2",
+      "name": "List Campaigns",
+      "url": "http://localhost:8000/api/campaigns",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ]
+    },
+    {
+      "_id": "req_3",
+      "name": "Show Campaign",
+      "url": "http://localhost:8000/api/campaigns/{{campaign_id}}",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ]
+    },
+    {
+      "_id": "req_4",
+      "name": "Update Campaign",
+      "url": "http://localhost:8000/api/campaigns/{{campaign_id}}",
+      "method": "PUT",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Updated Campaign\",\n  \"budget\": 10000,\n  \"description\": \"This is an updated test campaign\",\n  \"start_date\": \"2025-02-15\",\n  \"end_date\": \"2025-03-15\"\n}"
+      }
+    },
+    {
+      "_id": "req_5",
+      "name": "Delete Campaign",
+      "url": "http://localhost:8000/api/campaigns/{{campaign_id}}",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ]
+    }
+  ],
+  "_type": "export"
+}

@@ -15,8 +15,22 @@ WORKDIR /var/www
 # Copiar os arquivos do projeto para dentro do contêiner
 COPY . .
 
+# Fazer run para chmod -R 775 storage
+RUN chmod -R 775 /var/www/storage
+RUN chmod -R 775 /var/www/bootstrap/cache
+RUN chown -R www-data:www-data storage
+
 # Definir as permissões adequadas para os arquivos do projeto
 RUN chown -R www-data:www-data /var/www && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+# Rodar o composer install para instalar as dependências
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Rodar as migrações
+RUN php artisan migrate
+
+# Rodar os testes
+RUN php artisan test
 
 # Expor a porta para o PHP-FPM
 EXPOSE 9000
