@@ -40,7 +40,7 @@ Este projeto é uma aplicação Laravel configurada para rodar em contêineres D
     - Logo em seguida, as **migrações do banco de dados** serão executadas automaticamente para configurar o banco de dados.
     - Por fim, **os testes de feature das controllers** serão executados para garantir que as funcionalidades da aplicação estão funcionando corretamente.
 
-    É necessário esperar o container laravel_app finalizar
+    É necessário esperar o container laravel_app finalizar de rodar o composer e as migrações.
 
 3. **Acessando a Aplicação:**
     - O Nginx estará disponível na porta 8000. Você pode acessar a aplicação Laravel através do navegador ou utilizando uma ferramenta como o Postman, com o endereço `http://localhost:8000`.
